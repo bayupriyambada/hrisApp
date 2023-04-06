@@ -29,12 +29,10 @@ class TeamController extends Controller
     {
         return $this->repository->createData($request);
     }
-
     public function update(UpdateTeamRequest $request, $id)
     {
         return $this->repository->updateData($request, $id);
     }
-
     public function destroy($id)
     {
         return $this->repository->deleteData($id);

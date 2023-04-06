@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Helpers\ConstantaFormatter;
 use Exception;
 use App\Models\Team;
 use App\Models\User;
@@ -22,9 +23,9 @@ class TeamRepository
         if ($id) {
             $team = $teamQuery->find($id);
             if ($team) {
-                return ResponseFormatter::success($team, 'Team Found');
+                return ResponseFormatter::success($team, ConstantaFormatter::FOUND);
             }
-            return ResponseFormatter::error('Team not found', 404);
+            return ResponseFormatter::error(ConstantaFormatter::NOT_FOUND, 404);
         }
 
         $teams = $teamQuery->where('company_id', request()->company_id);
@@ -32,7 +33,7 @@ class TeamRepository
         if ($name) {
             $teams->where('name', 'LIKE', '%' . $name . '%');
         }
-        return ResponseFormatter::success($teams->paginate($limit), 'Team Found');
+        return ResponseFormatter::success($teams->paginate($limit), ConstantaFormatter::FOUND);
     }
 
     public function createData($params)
@@ -45,9 +46,9 @@ class TeamRepository
             ]);
 
             if (!$team) {
-                return ResponseFormatter::error('Something wrong created!');
+                return ResponseFormatter::error(ConstantaFormatter::WRONG);
             }
-            return ResponseFormatter::success($team, 'Team created');
+            return ResponseFormatter::success($team, ConstantaFormatter::CREATED);
         } catch (Exception $e) {
             return ResponseFormatter::error($e->getMessage(), 500);
         }
@@ -57,7 +58,7 @@ class TeamRepository
         try {
             $team = Team::find($id);
             if (!$team) {
-                throw new Exception('Team not found');
+                throw new Exception(ConstantaFormatter::NOT_FOUND);
             }
             $team->update([
                 'name' => $params->name,
@@ -65,7 +66,7 @@ class TeamRepository
                 'company_id' => $params->company_id
             ]);
 
-            return ResponseFormatter::success($team, 'Role updated');
+            return ResponseFormatter::success($team, ConstantaFormatter::UPDATED);
         } catch (Exception $e) {
             return ResponseFormatter::error($e->getMessage(), 500);
         }
@@ -76,11 +77,10 @@ class TeamRepository
         try {
             $team = Team::find($params);
             if (!$team) {
-                return ResponseFormatter::error('Team not found', 404);
+                return ResponseFormatter::error(ConstantaFormatter::NOT_FOUND, 404);
             }
             $team->delete();
-
-            return ResponseFormatter::success("Team Deleted");
+            return ResponseFormatter::success(ConstantaFormatter::DELETE);
         } catch (Exception $e) {
             return ResponseFormatter::error($e->getMessage());
         }

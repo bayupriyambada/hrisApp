@@ -2,11 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Helpers\ConstantaFormatter;
 use Exception;
-use App\Models\Team;
 use App\Models\Responsibility;
 use App\Helpers\ResponseFormatter;
-use App\Helpers\UploadFileFormatter;
 
 class ResponsibilityRepository
 {
@@ -19,7 +18,7 @@ class ResponsibilityRepository
         if ($id) {
             $responsibility = $ResponsibilityQuery->find($id);
             if ($responsibility) {
-                return ResponseFormatter::success($responsibility, 'Responsibility Found');
+                return ResponseFormatter::success($responsibility, ConstantaFormatter::FOUND);
             }
             return ResponseFormatter::error('Responsibility not found', 404);
         }
@@ -27,20 +26,20 @@ class ResponsibilityRepository
         if ($name) {
             $responsibilitys->where('name', 'LIKE', '%' . $name . '%');
         }
-        return ResponseFormatter::success($responsibilitys->paginate($limit), 'responsibility Found');
+        return ResponseFormatter::success($responsibilitys->paginate($limit), ConstantaFormatter::FOUND);
     }
 
     public function createData($params)
     {
         try {
-            $Responsibility = Responsibility::create([
+            $responsibility = Responsibility::create([
                 'name' => $params->name,
                 'role_id' => $params->role_id
             ]);
-            if (!$Responsibility) {
-                return ResponseFormatter::error('Something wrong created!');
+            if (!$responsibility) {
+                return ResponseFormatter::error(ConstantaFormatter::WRONG);
             }
-            return ResponseFormatter::success($Responsibility, 'Responsibility created');
+            return ResponseFormatter::success($responsibility, ConstantaFormatter::CREATED);
         } catch (Exception $e) {
             return ResponseFormatter::error($e->getMessage(), 500);
         }
@@ -48,17 +47,28 @@ class ResponsibilityRepository
     public function updateData($params, $id)
     {
         try {
-            $team = Team::find($id);
-            if (!$team) {
-                throw new Exception('Team not found');
+            $responsibility = Responsibility::find($id);
+            if (!$responsibility) {
+                return ResponseFormatter::error(ConstantaFormatter::NOT_FOUND, 404);
             }
-            $team->update([
+            $responsibility->update([
                 'name' => $params->name,
-                'icon' => UploadFileFormatter::uploadFile('icon'),
-                'company_id' => $params->company_id
+                'role_id' => $params->role_id
             ]);
-
-            return ResponseFormatter::success($team, 'Role updated');
+            return ResponseFormatter::success($responsibility, ConstantaFormatter::UPDATED);
+        } catch (Exception $e) {
+            return ResponseFormatter::error($e->getMessage(), 500);
+        }
+    }
+    public function deleteData($id)
+    {
+        try {
+            $responsibility = Responsibility::find($id);
+            if (!$responsibility) {
+                return ResponseFormatter::error(ConstantaFormatter::NOT_FOUND, 404);
+            }
+            $responsibility->delete();
+            return ResponseFormatter::success(ConstantaFormatter::DELETE);
         } catch (Exception $e) {
             return ResponseFormatter::error($e->getMessage(), 500);
         }

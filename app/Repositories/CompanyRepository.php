@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Helpers\ConstantaFormatter;
 use Exception;
 use App\Models\User;
 use App\Models\Company;
@@ -22,19 +23,19 @@ class CompanyRepository
         if ($id) {
             $company = $companyQuery->find($id);
             if ($company) {
-                return ResponseFormatter::success($company, 'Company Found');
+                return ResponseFormatter::success($company, ConstantaFormatter::FOUND);
             }
-            return ResponseFormatter::error('Company not found', 404);
+            return ResponseFormatter::error(ConstantaFormatter::NOT_FOUND, 404);
         }
         $companies = $companyQuery;
 
         if ($name) {
             $companies->where('name', 'LIKE', '%' . $name . '%');
         }
-        return ResponseFormatter::success($companies->paginate($limit), 'Company Found');
+        return ResponseFormatter::success($companies->paginate($limit), ConstantaFormatter::FOUND);
     }
 
-    public function createCompany($params)
+    public function createData($params)
     {
         try {
             $company = Company::create([
@@ -43,7 +44,7 @@ class CompanyRepository
             ]);
 
             if (!$company) {
-                return ResponseFormatter::error('Something wrong created!');
+                return ResponseFormatter::error(ConstantaFormatter::WRONG);
             }
             // attach company to user
             $user = User::find(Auth::id());
@@ -51,12 +52,12 @@ class CompanyRepository
 
             // load user after attach
             $company->load('users');
-            return ResponseFormatter::success($company, 'Company created');
+            return ResponseFormatter::success($company, ConstantaFormatter::CREATED);
         } catch (Exception $e) {
             return ResponseFormatter::error($e->getMessage(), 500);
         }
     }
-    public function updateCompany($params, $id)
+    public function updateData($params, $id)
     {
         try {
             $company = Company::find($id);

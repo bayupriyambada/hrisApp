@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\Api\{CompanyController, EmployeeController, ResponsibilityController, RoleController, TeamController, UserController};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\{ResponsibilityController, CompanyController, EmployeeController,  RoleController, TeamController, UserController};
 
 /*
 |--------------------------------------------------------------------------

@@ -9,24 +9,23 @@ use App\Http\Requests\Company\UpdateCompanyRequest;
 
 class CompanyController extends Controller
 {
-    public $companyRepository;
-    public function __construct(CompanyRepository $companyRepository)
+    protected $repository;
+    public function __construct(CompanyRepository $repository)
     {
-        $this->companyRepository = $companyRepository;
+        $this->repository = $repository;
     }
-
     public function getAll()
     {
-        return $this->companyRepository->allData();
+        return $this->repository->allData();
     }
 
     public function create(CreateCompanyRequest $request)
     {
-        return $this->companyRepository->createCompany($request);
+        return $this->repository->createData($request);
     }
 
     public function update(UpdateCompanyRequest $request, $id)
     {
-        return $this->companyRepository->updateCompany($request, $id);
+        return $this->repository->updateData($request, $id);
     }
 }
