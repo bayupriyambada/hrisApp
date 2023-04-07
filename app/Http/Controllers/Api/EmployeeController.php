@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Employee\CreateEmployeeRequest;
-use App\Http\Requests\Employee\UpdateEmployeeRequest;
+use App\Http\Requests\Employee\{UpdateEmployeeRequest, CreateEmployeeRequest};
 use App\Repositories\EmployeeRepository;
-use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {

@@ -2,15 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use Exception;
-use App\Models\Team;
-use App\Models\User;
-use Illuminate\Http\Request;
-use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Team\CreateTeamRequest;
-use App\Http\Requests\Team\UpdateTeamRequest;
+use App\Http\Requests\Team\{UpdateTeamRequest, CreateTeamRequest};
 use App\Repositories\TeamRepository;
 
 class TeamController extends Controller

@@ -6,22 +6,15 @@ use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Helpers\ResponseFormatter;
-use Laravel\Fortify\Rules\Password;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserLogin\{RegisterRequest, LoginRequest};
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         try {
-            // Todo: User Login with validation
-            $request->validate([
-                'email' => 'required|email',
-                'password' => 'required',
-            ]);
-
-            // Todo: Find by email validation
             $credential = request(['email', 'password']);
             if (!auth()->attempt($credential)) {
                 return ResponseFormatter::error('Unaunthorized', 401);
@@ -43,16 +36,9 @@ class UserController extends Controller
         }
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
         try {
-            // Todo: Validate user register
-            $request->validate([
-                'email' => 'required|email|unique:users',
-                'password' => ['required', 'min:8', 'string', new Password],
-                'name' => 'required|string|max:255',
-            ]);
-
             // Todo: Create User
             $user = User::create([
                 'name' => $request->name,

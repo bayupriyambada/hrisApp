@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\CompanyRepository;
-use App\Http\Requests\Company\CreateCompanyRequest;
-use App\Http\Requests\Company\UpdateCompanyRequest;
+use App\Http\Requests\Company\{UpdateCompanyRequest, CreateCompanyRequest};
 
 class CompanyController extends Controller
 {

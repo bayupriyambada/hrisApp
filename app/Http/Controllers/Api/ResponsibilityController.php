@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Responsibility\CreateResponsibilityRequest;
-use App\Http\Requests\Responsibility\UpdateResponsibilityRequest;
+use App\Http\Requests\Responsibility\{UpdateResponsibilityRequest, CreateResponsibilityRequest};
 use App\Repositories\ResponsibilityRepository;
-use Illuminate\Http\Request;
 
 class ResponsibilityController extends Controller
 {
