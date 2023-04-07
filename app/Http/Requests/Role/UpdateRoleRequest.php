@@ -24,7 +24,7 @@ class UpdateRoleRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'role_id' => 'required|integer|exists:roles,id'
+            'company_id' => 'required|integer|exists:companies,id'
         ];
     }
 }
