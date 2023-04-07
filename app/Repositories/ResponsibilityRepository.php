@@ -20,7 +20,7 @@ class ResponsibilityRepository
             if ($responsibility) {
                 return ResponseFormatter::success($responsibility, ConstantaFormatter::FOUND);
             }
-            return ResponseFormatter::error('Responsibility not found', 404);
+            return ResponseFormatter::error(ConstantaFormatter::NOT_FOUND, 404);
         }
         $responsibilitys = $ResponsibilityQuery->where('role_id', request()->role_id);
         if ($name) {

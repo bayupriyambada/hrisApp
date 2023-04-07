@@ -62,13 +62,13 @@ class CompanyRepository
         try {
             $company = Company::find($id);
             if (!$company) {
-                throw new Exception('Company not found');
+                throw new Exception(ConstantaFormatter::NOT_FOUND);
             }
             $company->update([
                 'name' => $params->name,
                 'logo' => UploadFileFormatter::uploadFile('logo'),
             ]);
-            return ResponseFormatter::success($company, 'Company updated');
+            return ResponseFormatter::success($company, ConstantaFormatter::UPDATED);
         } catch (Exception $e) {
             return ResponseFormatter::error($e->getMessage(), 500);
         }

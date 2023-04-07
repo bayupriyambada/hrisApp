@@ -4,10 +4,8 @@ namespace App\Repositories;
 
 use Exception;
 use App\Models\Role;
-use App\Models\Team;
 use App\Helpers\ResponseFormatter;
 use App\Helpers\ConstantaFormatter;
-use App\Helpers\UploadFileFormatter;
 
 class RoleRepository
 {
@@ -25,10 +23,10 @@ class RoleRepository
             $role = $roleQuery->with('responsibilities')->find($id);
 
             if ($role) {
-                return ResponseFormatter::success($role, 'Role found');
+                return ResponseFormatter::success($role, ConstantaFormatter::FOUND);
             }
 
-            return ResponseFormatter::error('Role not found', 404);
+            return ResponseFormatter::error(ConstantaFormatter::NOT_FOUND, 404);
         }
 
         // Get multiple data
@@ -55,9 +53,9 @@ class RoleRepository
             ]);
 
             if (!$role) {
-                return ResponseFormatter::error('Something wrong created!');
+                return ResponseFormatter::error(ConstantaFormatter::WRONG);
             }
-            return ResponseFormatter::success($role, 'Role created');
+            return ResponseFormatter::success($role, ConstantaFormatter::CREATED);
         } catch (Exception $e) {
             return ResponseFormatter::error($e->getMessage(), 500);
         }
@@ -67,7 +65,7 @@ class RoleRepository
         try {
             $role = Role::find($id);
             if (!$role) {
-                throw new Exception('Role not found');
+                throw new Exception(ConstantaFormatter::NOT_FOUND);
             }
 
             $role->update([
@@ -75,7 +73,7 @@ class RoleRepository
                 'company_id' => $params->company_id
             ]);
 
-            return ResponseFormatter::success($role, 'Role updated');
+            return ResponseFormatter::success($role, ConstantaFormatter::UPDATED);
         } catch (Exception $e) {
             return ResponseFormatter::error($e->getMessage(), 500);
         }
@@ -86,11 +84,11 @@ class RoleRepository
         try {
             $role = Role::find($id);
             if (!$role) {
-                return ResponseFormatter::error('Role not found', 404);
+                return ResponseFormatter::error(ConstantaFormatter::NOT_FOUND, 404);
             }
             $role->delete();
 
-            return ResponseFormatter::success("Role Deleted");
+            return ResponseFormatter::success(ConstantaFormatter::DELETE);
         } catch (Exception $e) {
             return ResponseFormatter::error($e->getMessage());
         }

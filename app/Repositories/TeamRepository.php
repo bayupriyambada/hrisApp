@@ -5,15 +5,12 @@ namespace App\Repositories;
 use App\Helpers\ConstantaFormatter;
 use Exception;
 use App\Models\Team;
-use App\Models\User;
-use App\Models\Company;
 use App\Helpers\ResponseFormatter;
 use App\Helpers\UploadFileFormatter;
-use Illuminate\Support\Facades\Auth;
 
 class TeamRepository
 {
-    public function all()
+    public function allData()
     {
         $id = request()->input('id');
         $name = request()->input('name');

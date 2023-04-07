@@ -23,7 +23,7 @@ class TeamController extends Controller
     }
     public function getAll()
     {
-        return $this->repository->all();
+        return $this->repository->allData();
     }
     public function create(CreateTeamRequest $request)
     {
